@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace UrlShortenerApp.Controllers
 {
@@ -11,10 +12,20 @@ namespace UrlShortenerApp.Controllers
     [ApiController]
     public class ShortenUrlController : ControllerBase
     {
+        IUriHelper _uriHelper;
+
+        public ShortenUrlController(IUriHelper uriHelper)
+        {
+            _uriHelper = uriHelper;
+        }
         [HttpPost]
         public string Post([FromBody] string url)
         {
-            return string.Format("TODO: Call 3rd party URL Shortening API to shorten '{0}'", url);
+            return string.Format("Shortened URI: '{0}'", _uriHelper.GetShortURI(url));
         }
+
+
+
+        
     }
 }
